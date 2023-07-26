@@ -33,8 +33,10 @@ import software.amazon.awssdk.core.interceptor.ExecutionInterceptor;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.GetObjectAsyncIntegrationTest.AssertingExecutionInterceptor;
+import software.amazon.awssdk.services.s3.model.GetObjectAttributesResponse;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import software.amazon.awssdk.services.s3.model.ObjectAttributes;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.testutils.RandomTempFile;
 
@@ -128,6 +130,20 @@ public class GetObjectIntegrationTest extends S3IntegrationTestBase {
                                                                                   .addExecutionInterceptor(interceptor)
                                                                                   .build())
                                 .build();
+    }
+
+    @Test
+    public void testGetObjAttributes(){
+
+        GetObjectAttributesResponse joviegasmpugetobj = s3.getObjectAttributes(r -> r.bucket("joviegasmpugetobj").key(
+            "test_root_5gb_multi.txt").objectAttributes( ObjectAttributes.OBJECT_PARTS));
+
+        System.out.println("joviegasmpugetobj "  + joviegasmpugetobj.objectParts().parts());
+
+        // System.out.println("joviegasmpugetobj " + joviegasmpugetobj.storageClass());
+        // System.out.println("joviegasmpugetobj size " + joviegasmpugetobj.objectParts().parts().get(0).size());
+
+
     }
 
 }
